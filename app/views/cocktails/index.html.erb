@@ -13,20 +13,29 @@
     </div>
   </div>
 </div>
+<%#= cl_image_tag("fro3srmpgz7lbt9rtz9r", width: 400, height: 300, crop: :fill) %>
 
 <h1>All non-alcoholic cocktails</h1>
 <div class="cards">
-  <%= @non_alcoholic.each do |ct| %>
+  <% @non_alcoholic.each do |ct| %>
     <%= link_to cocktail_path(ct), class: 'card-link' do %>
+    <% if ct.image %>
       <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= ct.image %>)">
+    <% elsif ct.photo %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path ct.photo.key%>')">
+    <% end %>
         <%= ct.name  %>
       </div>
     <% end %>
   <% end %>
 </div>
+
+
+
+
 <div class="cards">
   <h1>All alcoholic cocktails</h1>
-  <%= @alcoholic.each do |ct| %>
+  <% @alcoholic.each do |ct| %>
     <%= link_to cocktail_path(ct), class: 'card-link' do %>
       <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= ct.image %>)">
         <%= ct.name  %>
