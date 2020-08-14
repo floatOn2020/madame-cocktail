@@ -1,6 +1,7 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-gap: 5px;
 }
 .card-category {
   align-self: center;
@@ -11,8 +12,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: .4rem;
-      width: 100%;
+  width: 100%;
   color: white;
   font-size: 1.7rem;
   font-weight: bold;
@@ -25,6 +25,9 @@
 .card-category:hover {
   color: sandybrown;
 }
+  .card-link {
+    margin: 0 !important;
+  }
 .card-link:hover {
   text-decoration: none;
 }
