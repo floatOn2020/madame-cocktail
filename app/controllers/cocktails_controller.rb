@@ -1,7 +1,14 @@
 class CocktailsController < ApplicationController
   before_action :set_cocktail, only: [:show, :destroy, :edit, :update]
   def index
-    @cocktails = Cocktail.all
+    @alcoholic = Cocktail.where(kind: 'alcoholic')
+    @non_alcoholic = Cocktail.where(kind: 'non-alcoholic')
+    @search = params["search"]
+    if @search.present?
+      @name = @search["name"]
+      @alcoholic = @alcoholic.where("name ILIKE ?", "%#{@name}%")
+      @non_alcoholic = @non_alcoholic.where("name ILIKE ?", "%#{@name}%")
+    end
   end
 
   def show; end
@@ -38,6 +45,6 @@ class CocktailsController < ApplicationController
   end
 
   def cocktail_params
-     params.require(:cocktail).permit(:name)
+    params.require(:cocktail).permit(:name)
   end
 end

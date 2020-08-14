@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get 'ingredients/new'
-  get 'ingredients/create'
+  get 'pages/home'
   resources :cocktails  do
     resources :doses, only: [:new, :create]
   end

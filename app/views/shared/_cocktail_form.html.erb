@@ -1,0 +1,11 @@
+<div class="container mt-5 ">
+  <h1 class="text-center ">My Cocktail</h1>
+  <div class="form w-60">
+    <%= simple_form_for(cocktail) do |f| %>
+      <%= f.input :name %>
+      <%= f.input :kind, collection: ['alcoholic', 'non-alcoholic'] %>
+      <%= f.input :image %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+</div>

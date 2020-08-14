@@ -23,17 +23,19 @@ def create_doses_for_cocktail(url, cocktail)
   filtered = details.keys.filter do |key|
     key[/strIngredient/] && !details[key].nil?
   end
+  #get the relevant keys for measures
   measures = details.keys.filter do |key|
     key[/strMeasure/] && !details[key].nil?
   end
+  # create ingerdients for doses
   filtered.each_with_index do |key, index|
     if Ingredient.find_by(name: details[key].capitalize).nil?
       ingredient = Ingredient.create(name: details[key].capitalize)
     else
       ingredient = Ingredient.find_by(name: details[key])
     end
-    desc = details[measures[index]].nil? ? '.' : details[measures[index]]
-    dose = Dose.new(description: desc)
+    descripton = details[measures[index]].nil? ? 'some' : details[measures[index]]
+    dose = Dose.new(description: descripton)
     dose.ingredient = ingredient
     dose.cocktail = cocktail
     dose.save! if dose.valid?
@@ -41,12 +43,12 @@ def create_doses_for_cocktail(url, cocktail)
   puts "#{Dose.count} doses created"
 end
 
-def create_cocktails(url)
+def create_cocktails(url, kind)
   cocktails_serialized = open(url).read
   cocktails = JSON.parse(cocktails_serialized)['drinks']
   # create a cocktail for each cocktail-name
   cocktails.each do |cocktail|
-    ct = Cocktail.create!(name: cocktail['strDrink'], image: cocktail['strDrinkThumb'])
+    ct = Cocktail.create!(kind: kind, name: cocktail['strDrink'], image: cocktail['strDrinkThumb'])
     # endpoint for cocktail details
     detailed_cocktail_url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=#{cocktail['idDrink']}"
     create_doses_for_cocktail(detailed_cocktail_url, ct)
@@ -55,12 +57,12 @@ end
 
 puts 'creating non-alcoholic cocktails...'
 # endpoint for non-alcoholic cocktail names, image-urls and ids
-create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic')
+create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic', 'non-alcoholic')
 cocktails = Cocktail.count
 puts "#{cocktails} non-alcoholic cocktails created"
 
 puts 'creating alcolholic cocktails...'
 # endpoint for alcoholic cocktail names, image-urls and ids
-create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
+create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic', 'alcoholic')
 
-puts "#{Cocktail.count - cocktails} alcoholic cocktails created"
+puts "#{Cocktail.count - cocktails} #{cocktail.kind} cocktails created"

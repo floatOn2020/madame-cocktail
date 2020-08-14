@@ -1,2 +1,36 @@
-<h1>Cocktails#index</h1>
-<p>Find me in app/views/cocktails/index.html.erb</p>
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('<%= image_path "banner.png" %>');">
+  <div class="container">
+    <div class="headers">
+      <h1><strong>Madame Cocktail</strong></h1>
+      <p>Try one of our famous recipes or add yours to our hall of fame</p>
+    </div>
+    <div class="choices">
+      <%= link_to "Add my own", new_cocktail_path, class: "btn btn-flat" %>
+      <%= simple_form_for :search, url: root_path, method: "GET", html: { class: 'form-inline' } do |f| %>
+        <%= f.input :name, input_html: {value: "", placeholder: "in the mood for..."}, label: false %>
+        <%= f.submit "Search", class: "btn btn-flat" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<h1>All non-alcoholic cocktails</h1>
+<div class="cards">
+  <%= @non_alcoholic.each do |ct| %>
+    <%= link_to cocktail_path(ct), class: 'card-link' do %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= ct.image %>)">
+        <%= ct.name  %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<div class="cards">
+  <h1>All alcoholic cocktails</h1>
+  <%= @alcoholic.each do |ct| %>
+    <%= link_to cocktail_path(ct), class: 'card-link' do %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= ct.image %>)">
+        <%= ct.name  %>
+      </div>
+    <% end %>
+<% end %>
+</div>
