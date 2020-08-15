@@ -58,11 +58,11 @@ end
 puts 'creating non-alcoholic cocktails...'
 # endpoint for non-alcoholic cocktail names, image-urls and ids
 create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic', 'non-alcoholic')
-cocktails = Cocktail.count
-puts "#{cocktails} non-alcoholic cocktails created"
+cts = Cocktail.count
+puts "#{cts} non-alcoholic cocktails created"
 
 puts 'creating alcolholic cocktails...'
 # endpoint for alcoholic cocktail names, image-urls and ids
 create_cocktails('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic', 'alcoholic')
 
-puts "#{Cocktail.count - cocktails} #{cocktail.kind} cocktails created"
+puts "#{Cocktail.count - cts} #{cocktail.kind} cocktails created"
